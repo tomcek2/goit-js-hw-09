@@ -1,2 +1,0 @@
-const t=document.querySelector("button[data-start]"),e=document.querySelector("button[data-stop]");document.querySelector("body");let o=null;t.addEventListener("click",colorInterval),e.addEventListener("click",(()=>{clearInterval(o),e.setAttribute("disabled",!0),t.removeAttribute("disabled"),console.log(`Interval with id ${o} has stopped!`)}));
-//# sourceMappingURL=01-color-switcher.f0976125.js.map
