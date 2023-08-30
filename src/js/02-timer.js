@@ -3,13 +3,35 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const callender = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('button[data-start]');
-const body = document.querySelector('body');
 const daysCount = document.querySelector('span[data-days]');
 const hoursCount = document.querySelector('span[data-hours]');
 const minutesCount = document.querySelector('span[data-minutes]');
 const secondsCount = document.querySelector('span[data-seconds]');
+const timer = document.querySelector('.timer');
+const fields = document.querySelectorAll('.field');
+const values = document.querySelectorAll('.value');
+const labels = document.querySelectorAll('.label');
 const date = new Date();
 
+// Styling visual interface  //
+timer.style.display = 'flex';
+
+for (let field of fields) {
+  field.style.display = 'flex';
+  field.style.flexDirection = 'column';
+  field.style.margin = '5px';
+  field.style.alignItems = 'center';
+}
+for (let value of values) {
+  value.style.fontSize = '30px';
+}
+for (let label of labels) {
+  const upperCase = label.textContent.toUpperCase();
+  label.textContent = upperCase;
+  label.style.fontSize = '13px';
+}
+
+//  Flatpickr setup  //
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -27,6 +49,7 @@ const options = {
 
 const flatCallender = flatpickr(callender, options);
 
+//  Time calculator  //
 function convertMs(ms) {
   // Number of milliseconds per unit of time
   const second = 1000;
@@ -46,6 +69,7 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
+//  Adding 0 before one digit numbers  //
 function addLeadingZero(value) {
   let text = value.toString();
   if (text.length < 2) {
@@ -55,19 +79,18 @@ function addLeadingZero(value) {
     return value;
   }
 }
-console.log(addLeadingZero(7));
-
+//  Setting the timer  //
 let intervalId = null;
+
 const timeCounter = () => {
-  let counter = convertMs(
-    flatCallender.selectedDates[0].getTime() - new Date().getTime()
-  );
-  if (flatCallender.selectedDates[0].getTime() - new Date().getTime() > 0) {
+  let timeDifference =
+    flatCallender.selectedDates[0].getTime() - new Date().getTime();
+  let counter = convertMs(timeDifference);
+  if (timeDifference) {
     daysCount.textContent = addLeadingZero(counter.days);
     hoursCount.textContent = addLeadingZero(counter.hours);
     minutesCount.textContent = addLeadingZero(counter.minutes);
     secondsCount.textContent = addLeadingZero(counter.seconds);
-    // console.log(counter);
   } else {
     clearInterval(intervalId);
   }

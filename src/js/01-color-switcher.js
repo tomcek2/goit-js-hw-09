@@ -9,18 +9,18 @@ let intervalId = null;
 
 const colorChanger = () => {
   body.style.backgroundColor = `${getRandomHexColor()}`;
-
-  const colorInterval = () => {
-    intervalId = setInterval(colorChanger, 1000);
-    startBtn.setAttribute('disabled', true);
-    stopBtn.removeAttribute('disabled');
-  };
 };
 const stopColorInterval = () => {
   clearInterval(intervalId);
   stopBtn.setAttribute('disabled', true);
   startBtn.removeAttribute('disabled');
   console.log(`Interval with id ${intervalId} has stopped!`);
+};
+
+const colorInterval = () => {
+  intervalId = setInterval(colorChanger, 1000);
+  startBtn.setAttribute('disabled', true);
+  stopBtn.removeAttribute('disabled');
 };
 
 startBtn.addEventListener('click', colorInterval);
