@@ -3,14 +3,7 @@ const step = document.querySelector('input[name="step"]');
 const amount = document.querySelector('input[name="amount"]');
 const btn = document.querySelector('button[type="submit');
 
-let delayCounter;
-let positionCounter;
-
 function createPromise(position, delay) {
-  //  Loop break by amount  //
-  if (Number(amount.value) < position) {
-    return;
-  }
   const promisObj = {
     position: position,
     delay: delay,
@@ -34,27 +27,25 @@ function createPromise(position, delay) {
   promise
     .then(promisObj => {
       console.log(`Fulfilled promise ${position} in ${delay}ms`);
-      // Premaring next iteration  //
-      positionCounter = position + 1;
-      delayCounter = delay + Number(step.value);
-      createPromise(positionCounter, delayCounter);
       return;
     })
     .catch(promisObj => {
       console.log(`Rejected promise ${position} in ${delay}ms`);
-      // Premaring next iteration  //
-      positionCounter = position + 1;
-      delayCounter = delay + Number(step.value);
-      createPromise(positionCounter, delayCounter);
       return;
     });
 }
+let delayCounter = 0;
+let positionCounter = 0;
 
 function massPromiseCreator(e) {
   e.preventDefault();
   delayCounter = Number(firstDelay.value);
   positionCounter = 1;
-  createPromise(positionCounter, delayCounter);
+  for (let i = 0; i < Number(amount.value); i++) {
+    createPromise(positionCounter, delayCounter);
+    positionCounter++;
+    delayCounter += Number(step.value);
+  }
 }
 
 btn.addEventListener('click', massPromiseCreator);

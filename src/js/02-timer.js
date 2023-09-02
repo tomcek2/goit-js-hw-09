@@ -86,7 +86,7 @@ const timeCounter = () => {
   let timeDifference =
     flatCallender.selectedDates[0].getTime() - new Date().getTime();
   let counter = convertMs(timeDifference);
-  if (timeDifference) {
+  if (timeDifference > 0) {
     daysCount.textContent = addLeadingZero(counter.days);
     hoursCount.textContent = addLeadingZero(counter.hours);
     minutesCount.textContent = addLeadingZero(counter.minutes);
